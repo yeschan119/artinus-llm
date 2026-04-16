@@ -1,7 +1,7 @@
 {
   "name": "artinus-llm",
   "version": "1.0.0",
-  "description": "",
+  "type": "module",
   "main": "dist/server.js",
   "scripts": {
     "dev": "tsx watch src/server.ts",
