@@ -38,26 +38,26 @@ app.post("/histories", async (req, res) => {
         .join("\n");
 
         const response = await openai.responses.create({
-        model: "gpt-5",
-        input: `
-    아래는 한 회원의 구독 변경 이력이다.
-    이 이력을 한국어로 자연스럽게 요약하라.
+            model: "gpt-5",
+            input: `
+            한 회원의 구독 변경 이력이다.
+            이력을 시간 순서대로 빠짐없이 한국어로 상세히 정리하라.
 
-    규칙:
-    - 시간 순서대로 정리
-    - 가입, 해지, 업그레이드, 다운그레이드 흐름이 드러나야 한다
-    - channelId 변화도 간단히 반영할 수 있으면 반영
-    - 추측하지 말고 주어진 데이터만 사용
-    - 2~4문장으로 작성
-    - 마지막 문장에는 현재 최종 상태를 반드시 포함
-    - 상태값 의미:
-    - NONE: 구독 없음
-    - BASIC: 베이직 구독
-    - PREMIUM: 프리미엄 구독
+            규칙:
+            - 모든 이력을 반드시 한 줄씩 번호 목록으로 작성
+            - 각 이력은 createdAt, channelId, action, fromStatus, toStatus를 반영
+            - 상태 변화 의미를 자연스럽게 풀어서 설명
+            - 마지막 줄에 반드시 "최종 상태: ..." 작성
+            - 추측하지 말고 JSON에 있는 값만 사용
 
-    이력:
-    ${historyText}
-        `
+            상태값 의미:
+            - NONE: 구독 없음
+            - BASIC: 베이직 구독
+            - PREMIUM: 프리미엄 구독
+
+            JSON:
+            ${historyText}
+            `
         });
 
         return res.json({
